@@ -1,4 +1,5 @@
 from asyncio.log import logger
+from operator import mod
 from urllib import request
 import requests
 import os
@@ -12,7 +13,7 @@ def check_line_notify_status():
     line_notify_api = "https://notify-api.line.me/api/status"
 
     try:
-        response = requests.get(line_notify_api, headers = request_headers)
+        response = requests.get(line_notify_api, headers=request_headers)
         response.raise_for_status() # If status code is other than 200, flush to exception handling
 
     except requests.exceptions.RequestException as e:
@@ -34,9 +35,10 @@ def send_line_notify(notification_message):
 
     line_notify_api = "https://notify-api.line.me/api/notify"
     request_body = {'message': f'message: {notification_message}'}
+    send_image_file = {"imageFile": open("./img/Potter_1.jpg", mode="rb")} # Image file reading -> binaryization -> dictionary format conversion
 
     try:
-        response = requests.post(line_notify_api, headers = request_headers, data = request_body)
+        response = requests.post(line_notify_api, headers=request_headers, data=request_body, files=send_image_file)
         response.raise_for_status()
 
     except requests.exceptions.RequestException as e:
