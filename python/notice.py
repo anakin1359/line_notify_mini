@@ -1,29 +1,63 @@
+from asyncio.log import logger
+from urllib import request
 import requests
 import os
 
 line_notify_token = os.environ["LINE_NOTIFY_TOKEN"]
 
 def check_line_notify_status():
-    """LINE Notifyが利用可能かを検証"""
+    """LINE Notify 利用可否検証"""
+
     line_notify_api = "https://notify-api.line.me/api/status"
     request_headers = {'Authorization': f'Bearer {line_notify_token}'}
-    response = requests.get(line_notify_api, headers = request_headers).json()
-    status = response["status"]
-    return status
+
+    try:
+        response = requests.get(line_notify_api, headers = request_headers)
+        response.raise_for_status() # If status code is other than 200, flush to exception handling
+
+    except requests.exceptions.RequestException as e:
+        print("RequestException for check_line_notify_status. ", e)
+
+    except Exception as e:
+        print("An unexpected error occurred while processing 'check_line_notify_status'.", e)
+
+    else:
+        print("'check_line_notify_status' was successfully processed.")
+
+    finally:
+        print(response.json())
+        return response.status_code
+
 
 def send_line_notify(notification_message):
-    """LINEへ通知を行う"""
+    """LINE 通知"""
+
     line_notify_api = "https://notify-api.line.me/api/notify"
     request_headers = {'Authorization': f'Bearer {line_notify_token}'}
     request_body = {'message': f'message: {notification_message}'}
-    response = requests.post(line_notify_api, headers = request_headers, data = request_body).json()
-    return response
+
+    try:
+        response = requests.post(line_notify_api, headers = request_headers, data = request_body)
+        response.raise_for_status()
+
+    except requests.exceptions.RequestException as e:
+        print("RequestException for send_line_notify. ", e)
+
+    except Exception as e:
+        print("An unexpected error occurred while processing 'send_line_notify'.", e)
+
+    else:
+        print("'send_line_notify' was successfully processed.")
+
+    finally:
+        print(response.json())
+        return response.status_code
+
 
 def main():
     if 200 == check_line_notify_status():
         send_line_notify("test message from python.")
-    else:
-        print("api request error.")
+
 
 if __name__ == "__main__":
     main()
