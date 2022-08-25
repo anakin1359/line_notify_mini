@@ -4,12 +4,12 @@ import requests
 import os
 
 line_notify_token = os.environ["LINE_NOTIFY_TOKEN"]
+request_headers = {'Authorization': f'Bearer {line_notify_token}'}
 
 def check_line_notify_status():
     """LINE Notify 利用可否検証"""
 
     line_notify_api = "https://notify-api.line.me/api/status"
-    request_headers = {'Authorization': f'Bearer {line_notify_token}'}
 
     try:
         response = requests.get(line_notify_api, headers = request_headers)
@@ -33,7 +33,6 @@ def send_line_notify(notification_message):
     """LINE 通知"""
 
     line_notify_api = "https://notify-api.line.me/api/notify"
-    request_headers = {'Authorization': f'Bearer {line_notify_token}'}
     request_body = {'message': f'message: {notification_message}'}
 
     try:
