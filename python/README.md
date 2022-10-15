@@ -10,8 +10,12 @@ python notice.py
 
 * http status 200 (response sample)
 ```
-$ python python/notice.py
-'check_line_notify_status' was successfully processed.
+$ python main.py
+'check_line_notify_request' was successfully processed.
 {'status': 200, 'message': 'ok', 'targetType': 'USER', 'target': 'hoge123'}
+send: ./img/Potter_1.jpg
+send: ./img/Potter_2.jpg
+send: ./img/Potter_3.jpg
 'send_line_notify' was successfully processed.
+{'status': 200, 'message': 'ok'}
 ```
