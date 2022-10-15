@@ -1,6 +1,3 @@
-from asyncio.log import logger
-from operator import mod
-from urllib import request
 import requests
 
 # vars: api endpoint
