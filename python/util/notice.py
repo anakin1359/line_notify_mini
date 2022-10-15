@@ -1,4 +1,5 @@
 import requests
+import time
 
 # vars: api endpoint
 request_check_endpoint = "https://notify-api.line.me/api/status" # LINE Notify API 利用可否検証
@@ -27,17 +28,19 @@ def check_line_notify_request(request_headers):
         return response.status_code
 
 
-def send_line_notify(request_headers, notification_message): # http status code を返却
+def send_line_notify(request_headers, notification_message, file_list):
     """ LINE 通知 """
 
     endpoint_url = send_notify_endpoint
     request_body = {'message': f'message: {notification_message}'}
-    image_path = "./img/Potter_1.jpg"
-    image_convert_dict = {"imageFile": open(image_path, mode="rb")} # Image file reading -> binaryization -> dictionary format conversion
 
     try:
-        response = requests.post(endpoint_url, headers=request_headers, data=request_body, files=image_convert_dict)
-        response.raise_for_status()
+        for file_name in file_list:
+            image_convert_dict = {"imageFile": open(f'./img/{file_name}', mode="rb")} # Image file reading -> binaryization -> dictionary format conversion
+            response = requests.post(endpoint_url, headers=request_headers, data=request_body, files=image_convert_dict)
+            response.raise_for_status()
+            print(f'send: ./img/{file_name}')
+            time.sleep(0.5)
 
     except requests.exceptions.RequestException as e:
         print("RequestException for send_line_notify. ", e)
