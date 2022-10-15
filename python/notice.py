@@ -40,10 +40,11 @@ def send_line_notify(notification_message): # http status code を返却
 
     endpoint_url = send_notify_endpoint
     request_body = {'message': f'message: {notification_message}'}
-    send_image_file = {"imageFile": open("./img/Potter_1.jpg", mode="rb")} # Image file reading -> binaryization -> dictionary format conversion
+    image_path = "./img/Potter_1.jpg"
+    convert_to_dict = {"imageFile": open(image_path, mode="rb")} # Image file reading -> binaryization -> dictionary format conversion
 
     try:
-        response = requests.post(endpoint_url, headers=request_headers, data=request_body, files=send_image_file)
+        response = requests.post(endpoint_url, headers=request_headers, data=request_body, files=convert_to_dict)
         response.raise_for_status()
 
     except requests.exceptions.RequestException as e:
