@@ -1,14 +1,26 @@
 ### LINE Notify
 ---
 
-* sample
+Sending images using LINE Message API in python.
+
+<br>
+
+* Reserve
 ```
-python notice.py
+export LINE_NOTIFY_TOKEN='C7***************************************G9'
+```
+```
+$ env |grep "LINE_NOTIFY_TOKEN"
+LINE_NOTIFY_TOKEN=C7***************************************G9
 ```
 
 <br>
 
-* http status 200 (response sample)
+* execute
+```
+cd python/
+```
+
 ```
 $ python main.py
 'check_line_notify_request' was successfully processed.
